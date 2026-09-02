@@ -17,5 +17,5 @@ jobs:
       release_name: lol-analysis
       namespace: lol-analysis
       minimum_kind_count: 5
-      forbid_ingress: true
+      forbid_ingress: false
     secrets: inherit
