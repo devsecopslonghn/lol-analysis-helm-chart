@@ -8,7 +8,7 @@ image:
     tag: "dd120930cad07366b0de274f5861b63ab3ef9159"
   frontend:
     repository: ghcr.io/devsecopslonghn/lol-analysis-frontend
-    tag: "5d29a8695186de70e8c06bbd7047b1c9ef30d946"
+    tag: "17d92f8dce523c7055aeadb306717a4d1d3ee68e"
 
 backend:
   replicas: 1
