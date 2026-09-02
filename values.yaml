@@ -37,7 +37,7 @@ persistence:
   enabled: true
   storageClassName: longhorn-workers
   accessModes: [ReadWriteOnce]
-  size: 10Gi
+  size: 2Gi
 
 ingress:
   # Frontend and API are exposed under the same host for browser access.
