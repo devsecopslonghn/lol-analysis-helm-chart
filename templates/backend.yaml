@@ -83,7 +83,7 @@ spec:
       volumes:
         - name: reports
           {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim: {claimName: {{ include "lol-analysis.name" . }}-reports}
+          persistentVolumeClaim: {claimName: {{ include "lol-analysis.reportsClaimName" . }}}
           {{- else }}
           emptyDir: {}
           {{- end }}

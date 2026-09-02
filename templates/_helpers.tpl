@@ -9,3 +9,6 @@ app.kubernetes.io/part-of: lol-analysis
 app.kubernetes.io/name: {{ include "lol-analysis.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+{{- define "lol-analysis.reportsClaimName" -}}
+{{- default (default (printf "%s-reports" (include "lol-analysis.name" .)) .Values.persistence.name) .Values.persistence.existingClaim -}}
+{{- end }}
