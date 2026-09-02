@@ -2,8 +2,7 @@ domain: lol-analysis.apps.drgdevlab.com
 
 image:
   pullPolicy: IfNotPresent
-  # GHCR images are public by default. Set this only if package visibility is private.
-  pullSecret: ""
+  pullSecret: ghcr-pull
   backend:
     repository: ghcr.io/devsecopslonghn/lol-analysis-backend
     tag: "708c33be224ad9ff837ae83c43399d3c45d0b849"
