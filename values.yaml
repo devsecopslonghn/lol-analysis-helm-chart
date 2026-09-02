@@ -17,6 +17,15 @@ backend:
     requests: {cpu: 100m, memory: 256Mi}
     limits: {cpu: "1", memory: 1Gi}
 
+# Riot credentials are supplied through an existing Kubernetes Secret. Keep
+# this disabled until the secret exists in the release namespace.
+riot:
+  enabled: false
+  existingSecret: ""
+  apiKeyKey: RIOT_API_KEY
+  collectorTokenKey: RIOT_COLLECT_TOKEN
+  timeoutSeconds: "15"
+
 frontend:
   replicas: 1
   port: 8080

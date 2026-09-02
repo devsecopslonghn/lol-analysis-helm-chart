@@ -40,6 +40,23 @@ spec:
             - {name: ROFL_REPORT_ROOT, value: /var/lib/rofl-analysis/reports}
             - {name: ROFL_UPLOAD_ROOT, value: /var/lib/rofl-analysis/uploads}
             - {name: ROFL_CACHE_ROOT, value: /var/lib/rofl-analysis/cache}
+            - {name: RIOT_DATA_ROOT, value: /var/lib/rofl-analysis/riot}
+            - {name: RIOT_API_TIMEOUT_SECONDS, value: {{ .Values.riot.timeoutSeconds | quote }}}
+            {{- if .Values.riot.enabled }}
+            {{- if not .Values.riot.existingSecret }}
+            {{- fail "values.riot.existingSecret is required when values.riot.enabled=true" }}
+            {{- end }}
+            - name: RIOT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.riot.existingSecret }}
+                  key: {{ .Values.riot.apiKeyKey }}
+            - name: RIOT_COLLECT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.riot.existingSecret }}
+                  key: {{ .Values.riot.collectorTokenKey }}
+            {{- end }}
           ports:
             - {name: http, containerPort: {{ .Values.backend.port }} }
           startupProbe:
