@@ -1,0 +1,41 @@
+domain: lol-analysis.apps.drgdevlab.com
+
+image:
+  pullPolicy: IfNotPresent
+  pullSecret: nexus-registry
+  backend:
+    repository: nexus.apps.drgdevlab.com/lol-analysis/backend
+    tag: "dev"
+  frontend:
+    repository: nexus.apps.drgdevlab.com/lol-analysis/frontend
+    tag: "dev"
+
+backend:
+  replicas: 1
+  port: 8080
+  resources:
+    requests: {cpu: 100m, memory: 256Mi}
+    limits: {cpu: "1", memory: 1Gi}
+
+frontend:
+  replicas: 1
+  port: 8080
+  resources:
+    requests: {cpu: 50m, memory: 64Mi}
+    limits: {cpu: 500m, memory: 256Mi}
+
+persistence:
+  enabled: true
+  storageClassName: longhorn-workers
+  accessModes: [ReadWriteOnce]
+  size: 10Gi
+
+ingress:
+  # Keep the report API private until an auth proxy is configured.
+  enabled: false
+  className: nginx
+
+networkPolicy:
+  enabled: false
+
+podAnnotations: {}

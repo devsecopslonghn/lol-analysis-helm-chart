@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "lol-analysis.name" . }}-backend
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "lol-analysis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: backend
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "lol-analysis.selector" . | nindent 6 }}
+      app.kubernetes.io/component: backend
+  template:
+    metadata:
+      labels:
+        {{- include "lol-analysis.selector" . | nindent 8 }}
+        app.kubernetes.io/component: backend
+      annotations:
+        {{- toYaml .Values.podAnnotations | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}
+      securityContext:
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: backend
+          image: "{{ .Values.image.backend.repository }}:{{ .Values.image.backend.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - {name: ROFL_REPORT_ROOT, value: /var/lib/rofl-analysis/reports}
+            - {name: ROFL_UPLOAD_ROOT, value: /var/lib/rofl-analysis/uploads}
+            - {name: ROFL_CACHE_ROOT, value: /var/lib/rofl-analysis/cache}
+          ports:
+            - {name: http, containerPort: {{ .Values.backend.port }} }
+          startupProbe:
+            httpGet: {path: /health/live, port: http}
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet: {path: /health/ready, port: http}
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: {path: /health/live, port: http}
+            periodSeconds: 20
+          resources: {{- toYaml .Values.backend.resources | nindent 12 }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            runAsGroup: 10001
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: reports, mountPath: /var/lib/rofl-analysis}
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: reports
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim: {claimName: {{ include "lol-analysis.name" . }}-reports}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "lol-analysis.name" . }}-backend
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "lol-analysis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: backend
+spec:
+  selector:
+    {{- include "lol-analysis.selector" . | nindent 4 }}
+    app.kubernetes.io/component: backend
+  ports:
+    - {name: http, port: {{ .Values.backend.port }}, targetPort: http}

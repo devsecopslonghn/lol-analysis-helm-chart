@@ -1,0 +1,6 @@
+apiVersion: v2
+name: lol-analysis
+description: Local-first League of Legends ROFL analysis dashboard
+type: application
+version: 0.2.0
+appVersion: "0.2.0"
