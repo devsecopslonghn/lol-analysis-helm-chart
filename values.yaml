@@ -32,8 +32,8 @@ persistence:
   size: 10Gi
 
 ingress:
-  # Keep the report API private until an auth proxy is configured.
-  enabled: false
+  # Frontend and API are exposed under the same host for browser access.
+  enabled: true
   className: nginx
 
 networkPolicy:
