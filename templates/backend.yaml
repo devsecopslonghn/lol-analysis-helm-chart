@@ -24,8 +24,10 @@ spec:
         {{- toYaml .Values.podAnnotations | nindent 8 }}
     spec:
       automountServiceAccountToken: false
+      {{- with .Values.image.pullSecret }}
       imagePullSecrets:
-        - name: {{ .Values.image.pullSecret }}
+        - name: {{ . }}
+      {{- end }}
       securityContext:
         seccompProfile: {type: RuntimeDefault}
       containers:

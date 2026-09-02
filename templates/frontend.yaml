@@ -19,8 +19,10 @@ spec:
         app.kubernetes.io/component: frontend
     spec:
       automountServiceAccountToken: false
+      {{- with .Values.image.pullSecret }}
       imagePullSecrets:
-        - name: {{ .Values.image.pullSecret }}
+        - name: {{ . }}
+      {{- end }}
       securityContext:
         seccompProfile: {type: RuntimeDefault}
       containers:

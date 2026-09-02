@@ -2,13 +2,14 @@ domain: lol-analysis.apps.drgdevlab.com
 
 image:
   pullPolicy: IfNotPresent
-  pullSecret: nexus-registry
+  # GHCR images are public by default. Set this only if package visibility is private.
+  pullSecret: ""
   backend:
-    repository: nexus.apps.drgdevlab.com/lol-analysis/backend
-    tag: "dev"
+    repository: ghcr.io/devsecopslonghn/lol-analysis-backend
+    tag: "708c33be224ad9ff837ae83c43399d3c45d0b849"
   frontend:
-    repository: nexus.apps.drgdevlab.com/lol-analysis/frontend
-    tag: "dev"
+    repository: ghcr.io/devsecopslonghn/lol-analysis-frontend
+    tag: "9e039c2d9da95407a3a4cfc6d6f02cbb91c85b99"
 
 backend:
   replicas: 1

@@ -16,3 +16,10 @@ after auth is in place.
 The report PVC contains user-created analysis data. Back it up before changing
 storage or deleting the release. Image tags should be replaced with immutable
 CI tags before a shared-environment sync.
+The chart uses public GitHub Container Registry images by default:
+
+- `ghcr.io/devsecopslonghn/lol-analysis-backend`
+- `ghcr.io/devsecopslonghn/lol-analysis-frontend`
+
+The default values pin image tags to immutable commit SHAs. Set
+`image.pullSecret` only when the GHCR packages are made private.
