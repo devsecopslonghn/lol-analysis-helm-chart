@@ -5,7 +5,7 @@ image:
   pullSecret: ghcr-pull
   backend:
     repository: ghcr.io/devsecopslonghn/lol-analysis-backend
-    tag: "8f2a54db74303890d04d62763f1d8cfabd718f77"
+    tag: "205d0b7bc4e05394044eb1edeecebbb86f484163"
   frontend:
     repository: ghcr.io/devsecopslonghn/lol-analysis-frontend
     tag: "84d3730ccf7b3bb1d2d26e8ff062834dc62a611b"
