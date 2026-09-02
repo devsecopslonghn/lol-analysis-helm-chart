@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   validate:
-    # The reusable workflow performs offline client-side validation.
+    # The reusable workflow performs offline rendered-manifest validation.
     uses: devsecopslonghn/.github/.github/workflows/helm-validate.yml@master
     with:
       chart_path: .
