@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    uses: devsecopslonghn/.github/.github/workflows/helm-validate.yml@master
+    with:
+      chart_path: .
+      release_name: lol-analysis
+      namespace: lol-analysis
+      minimum_kind_count: 5
+      forbid_ingress: true
+    secrets: inherit
