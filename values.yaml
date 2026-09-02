@@ -40,9 +40,6 @@ persistence:
   storageClassName: longhorn-workers
   accessModes: [ReadWriteOnce]
   size: 2Gi
-  preserveSourceClaim: true
-  sourceClaim: lol-analysis-reports
-  sourceSize: 10Gi
 
 ingress:
   # Frontend and API are exposed under the same host for browser access.
